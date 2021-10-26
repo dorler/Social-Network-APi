@@ -17,7 +17,7 @@ const userSchema = new Schema(
         validate: [ isEmail, 'email address error']
       },
 
-      thought: [
+      Thought: [
         {
           type: Schema.Types.ObjectId,
           ref: "Thought"
