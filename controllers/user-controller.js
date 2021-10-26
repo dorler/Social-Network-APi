@@ -2,18 +2,16 @@ const User = require('../models/User');
 const Thought = require('../models/Thought');
 
 const userController = {
-    getAllUsers(req, res) {
+    getAllUsers(req, res){
         User.find({})
-        .populate('thoughts')
-        .populate('friends')
         .select('-__v')
+        .sort({ _id: -1 })
         .then(dbUserData => res.json(dbUserData))
         .catch(err => {
             console.log(err);
-            res.sendStatus(400).json(err);
-        });
-},
-
+            res.sendStatus(400);
+        }); 
+    },
 getUserById({ params }, res) {
     User.findOne({ _id: params.id })
         .populate('thoughts')
@@ -35,7 +33,7 @@ createUser({ body }, res) {
         .catch(err => res.json(err));
   },
 
-  updateUser({params, body}, res) {
+updateUser({params, body}, res) {
     User.findOneAndUpdate({ _id: params.id }, body, { new: true })
     .then(dbUserData => {
         if(!dbUserData) {
